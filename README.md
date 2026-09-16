@@ -37,66 +37,66 @@ The platform operates on a decoupled client-server architecture with an external
 
 ```mermaid
 graph TB
-    subgraph Client_Tier [Client Tier: React 19 Single Page Application]
-        A[Candidate Interface] -->|Authenticates Team| B(Team Registration)
-        B --> C{Unique Team Check}
-        C -->|Valid| D[Rules & Guidelines Screen]
-        D --> E[Proctored Contest Arena]
+    subgraph Client_Tier ["Client Tier: React 19 Single Page Application"]
+        A["Candidate Interface"] -->|Authenticates Team| B("Team Registration")
+        B --> C{"Unique Team Check"}
+        C -->|Valid| D["Rules & Guidelines Screen"]
+        D --> E["Proctored Contest Arena"]
         
-        subgraph Security_Perimeter [Client-Side Security Perimeter]
-            E --- SEC1[SecureQuiz Engine]
-            SEC1 -->|Enforce| F1[Fullscreen API Lock]
-            SEC1 -->|Capture & Block| F2[Key Combos: Ctrl+C,V,X,A,S,I,J,U,P,Tab,F10]
-            SEC1 -->|Disable| F3[Clipboard & Right-Click Context Menu]
-            SEC1 -->|Monitor| F4[VisibilityChange & Window Blur]
-            F4 -->|Violation Detected| AUTO[Instant Auto-Submit]
+        subgraph Security_Perimeter ["Client-Side Security Perimeter"]
+            E --- SEC1["SecureQuiz Engine"]
+            SEC1 -->|Enforce| F1["Fullscreen API Lock"]
+            SEC1 -->|Capture & Block| F2["Key Combos: Ctrl+C,V,X,A,S,I,J,U,P,Tab,F10"]
+            SEC1 -->|Disable| F3["Clipboard & Right-Click Context Menu"]
+            SEC1 -->|Monitor| F4["VisibilityChange & Window Blur"]
+            F4 -->|Violation Detected| AUTO["Instant Auto-Submit"]
         end
         
-        subgraph Editor_Perimeter [Sanitized Editor Arena]
-            E --- MED[Monaco Editor]
-            MED -->|Deactivated| G1[No Autocomplete / No QuickSuggestions]
-            MED -->|Deactivated| G2[No Parameter Hints / No Hover Types]
-            MED -->|Deactivated| G3[No AI Inline Suggestion / Ghost Text]
+        subgraph Editor_Perimeter ["Sanitized Editor Arena"]
+            E --- MED["Monaco Editor"]
+            MED -->|Deactivated| G1["No Autocomplete / No QuickSuggestions"]
+            MED -->|Deactivated| G2["No Parameter Hints / No Hover Types"]
+            MED -->|Deactivated| G3["No AI Inline Suggestion / Ghost Text"]
         end
         
-        ADMIN_UI[Admin Control Panel] -->|Password Authenticated| ADM_ROUTE[Admin Route Guard]
-        ADM_ROUTE --> ADM_DASH[Dashboard: Timer / Shuffling / Pool Size]
-        ADM_ROUTE --> ADM_CRUD[Question CRUD: Hidden Tests & Wrappers]
-        ADM_ROUTE --> ADM_LEAD[Live Leaderboard & Evaluator]
+        ADMIN_UI["Admin Control Panel"] -->|Password Authenticated| ADM_ROUTE["Admin Route Guard"]
+        ADM_ROUTE --> ADM_DASH["Dashboard: Timer / Shuffling / Pool Size"]
+        ADM_ROUTE --> ADM_CRUD["Question CRUD: Hidden Tests & Wrappers"]
+        ADM_ROUTE --> ADM_LEAD["Live Leaderboard & Evaluator"]
     end
 
-    subgraph Server_Tier [Application Tier: Node.js & Express REST API]
-        API_GATEWAY[Express Application Gateway - Port 3000]
+    subgraph Server_Tier ["Application Tier: Node.js & Express REST API"]
+        API_GATEWAY["Express Application Gateway - Port 3000"]
         
-        API_GATEWAY --> ROUTE_AUTH[/api/auth]
-        API_GATEWAY --> ROUTE_SETTINGS[/api/settings]
-        API_GATEWAY --> ROUTE_QUESTION[/api/question]
-        API_GATEWAY --> ROUTE_RESULT[/api/result]
-        API_GATEWAY --> ROUTE_JUDGE[/api/judge]
+        API_GATEWAY --> ROUTE_AUTH["/api/auth"]
+        API_GATEWAY --> ROUTE_SETTINGS["/api/settings"]
+        API_GATEWAY --> ROUTE_QUESTION["/api/question"]
+        API_GATEWAY --> ROUTE_RESULT["/api/result"]
+        API_GATEWAY --> ROUTE_JUDGE["/api/judge"]
         
-        subgraph Business_Logic_Controllers [Core Controllers]
-            ROUTE_AUTH --> CTRL_AUTH[auth.controller.js]
-            ROUTE_SETTINGS --> CTRL_SETT[settings.controller.js]
-            ROUTE_QUESTION --> CTRL_QUES[questions.controller.js]
-            ROUTE_RESULT --> CTRL_RES[result.controller.js]
-            ROUTE_JUDGE --> CTRL_JUDGE[judge.controller.js]
+        subgraph Business_Logic_Controllers ["Core Controllers"]
+            ROUTE_AUTH --> CTRL_AUTH["auth.controller.js"]
+            ROUTE_SETTINGS --> CTRL_SETT["settings.controller.js"]
+            ROUTE_QUESTION --> CTRL_QUES["questions.controller.js"]
+            ROUTE_RESULT --> CTRL_RES["result.controller.js"]
+            ROUTE_JUDGE --> CTRL_JUDGE["judge.controller.js"]
         end
     end
 
-    subgraph Sandbox_Tier [Isolated Remote Execution Microservice]
-        CTRL_JUDGE -->|HTTP POST JSON Payload| PISTON[Piston Engine API v2 - Port 2000]
-        PISTON --> DOCKER[Containerized Compilers & Interpreters]
-        DOCKER --> RUN_JS[Node.js 18.15.0]
-        DOCKER --> RUN_PY[Python 3.10.0]
-        DOCKER --> RUN_C[GCC C 10.2.0]
-        DOCKER --> RUN_CPP[GCC C++ 10.2.0]
-        DOCKER --> RUN_JAVA[OpenJDK 15.0.2]
+    subgraph Sandbox_Tier ["Isolated Remote Execution Microservice"]
+        CTRL_JUDGE -->|HTTP POST JSON Payload| PISTON["Piston Engine API v2 - Port 2000"]
+        PISTON --> DOCKER["Containerized Compilers & Interpreters"]
+        DOCKER --> RUN_JS["Node.js 18.15.0"]
+        DOCKER --> RUN_PY["Python 3.10.0"]
+        DOCKER --> RUN_C["GCC C 10.2.0"]
+        DOCKER --> RUN_CPP["GCC C++ 10.2.0"]
+        DOCKER --> RUN_JAVA["OpenJDK 15.0.2"]
     end
 
-    subgraph Persistence_Tier [Database Tier: MongoDB]
-        CTRL_SETT <--> DB_SETT[(QuizSetting Collection)]
-        CTRL_QUES <--> DB_QUES[(Question Collection)]
-        CTRL_RES <--> DB_RES[(Result Collection)]
+    subgraph Persistence_Tier ["Database Tier: MongoDB"]
+        CTRL_SETT <--> DB_SETT[("QuizSetting Collection")]
+        CTRL_QUES <--> DB_QUES[("Question Collection")]
+        CTRL_RES <--> DB_RES[("Result Collection")]
     end
 ```
 
@@ -217,7 +217,7 @@ sequenceDiagram
         Candidate->>Browser: Switches Tab / Minimizes / Exits Fullscreen
         Browser->>SecureQuiz: Triggers 'visibilitychange' OR 'blur' OR 'fullscreenchange'
         SecureQuiz->>QuizPage: Invokes onAutoSubmit()
-        QuizPage->>QuizPage: setSubmitted(true) [Lock UI]
+        QuizPage->>QuizPage: setSubmitted(true) - Lock UI
         QuizPage->>Backend: POST /api/result with current codeMap
         Backend-->>QuizPage: 200 OK (Submission Logged)
         QuizPage->>Browser: Redirect Candidate to /end (Session Terminated)
@@ -280,32 +280,32 @@ Integrity verification occurs across multiple levels from initial team login to 
 
 ```mermaid
 flowchart TD
-    Start([Candidate Enters App]) --> InputTeam[Enter Team Name on TeamPage]
-    InputTeam --> Normalize[Convert to UpperCase & Trim Whitespace]
-    Normalize --> QueryDB[GET /api/result Fetch Existing Results]
-    QueryDB --> CheckExist{Team Name in Results?}
+    Start(["Candidate Enters App"]) --> InputTeam["Enter Team Name on TeamPage"]
+    InputTeam --> Normalize["Convert to UpperCase & Trim Whitespace"]
+    Normalize --> QueryDB["GET /api/result Fetch Existing Results"]
+    QueryDB --> CheckExist{"Team Name in Results?"}
     
-    CheckExist -- Yes --> ShowToast[Display: 'Team has already submitted the quiz']
-    ShowToast --> BlockEntry[Remain on Landing Page]
+    CheckExist -- Yes --> ShowToast["Display: Team has already submitted the quiz"]
+    ShowToast --> BlockEntry["Remain on Landing Page"]
     
-    CheckExist -- No --> SetContext[Set Team in TeamContext Provider]
-    SetContext --> NavRules[Navigate to /rules]
-    NavRules --> NavQuiz[Navigate to /quiz]
+    CheckExist -- No --> SetContext["Set Team in TeamContext Provider"]
+    SetContext --> NavRules["Navigate to /rules"]
+    NavRules --> NavQuiz["Navigate to /quiz"]
     
-    NavQuiz --> Guard1{Team Context Exists?}
-    Guard1 -- No --> RedirectEnd[Redirect to /end]
+    NavQuiz --> Guard1{"Team Context Exists?"}
+    Guard1 -- No --> RedirectEnd["Redirect to /end"]
     
-    Guard1 -- Yes --> SecondaryCheck{Re-Verify /api/result for Duplicate?}
-    SecondaryCheck -- Yes Found --> EjectToast[Display Error & Redirect to /end]
-    SecondaryCheck -- No --> RenderQuiz[Mount Contest Arena & Start Timer]
+    Guard1 -- Yes --> SecondaryCheck{"Re-Verify /api/result for Duplicate?"}
+    SecondaryCheck -- Yes Found --> EjectToast["Display Error & Redirect to /end"]
+    SecondaryCheck -- No --> RenderQuiz["Mount Contest Arena & Start Timer"]
     
-    RenderQuiz --> SubmissionEvent[User Clicks Submit OR Auto-Submit Triggered]
-    SubmissionEvent --> LockState{submitted === true?}
-    LockState -- Yes --> Ignore[Ignore Redundant Submissions]
-    LockState -- No --> SetLock[Set submitted = true]
-    SetLock --> BuildPayload[Build Payload from Multi-Language codeMap]
-    BuildPayload --> PostDB[POST /api/result]
-    PostDB --> EndScreen[Redirect to /end]
+    RenderQuiz --> SubmissionEvent["User Clicks Submit OR Auto-Submit Triggered"]
+    SubmissionEvent --> LockState{"submitted === true?"}
+    LockState -- Yes --> Ignore["Ignore Redundant Submissions"]
+    LockState -- No --> SetLock["Set submitted = true"]
+    SetLock --> BuildPayload["Build Payload from Multi-Language codeMap"]
+    BuildPayload --> PostDB["POST /api/result"]
+    PostDB --> EndScreen["Redirect to /end"]
 ```
 
 ### 5.2 Specific Validation Steps in Code
@@ -386,27 +386,27 @@ sequenceDiagram
     participant Piston as Piston API Service (:2000)
     participant Docker as Containerized Runtime
 
-    Admin->>AdminUI: Clicks "Evaluate" on Team Submission
+    Admin->>AdminUI: Clicks 'Evaluate' on Team Submission
     AdminUI->>JudgeCtrl: POST /api/judge/evaluate/:resultId
     JudgeCtrl->>Mongo: Fetch Result Document & Populate Question Data (hiddenTests, functionCallCode)
     
     loop For Each Candidate Question Submission
         JudgeCtrl->>JudgeCtrl: Extract Candidate Code + functionCallCode[lang]
         JudgeCtrl->>JudgeCtrl: normalizeCode(submission.code + "\n" + functionCallCode)
-        JudgeCtrl->>Piston: POST /api/v2/execute { language, version, files: [{ name, content }] }
+        JudgeCtrl->>Piston: POST /api/v2/execute with Code Payload
         Piston->>Docker: Spawn isolated sandbox container
         Docker-->>Piston: Return execution stdout, stderr, exit code
-        Piston-->>JudgeCtrl: Return JSON { run: { stdout, stderr, output } }
+        Piston-->>JudgeCtrl: Return Execution Output (stdout, stderr)
         
         JudgeCtrl->>JudgeCtrl: normalizeOutput(stdout)
         JudgeCtrl->>JudgeCtrl: compareOutputs(actualLines, hiddenTests)
         
         alt All Hidden Tests Match
-            JudgeCtrl->>JudgeCtrl: verdict = "Accepted"
+            JudgeCtrl->>JudgeCtrl: verdict = 'Accepted'
         else Partial/No Match
-            JudgeCtrl->>JudgeCtrl: verdict = "Wrong Answer"
+            JudgeCtrl->>JudgeCtrl: verdict = 'Wrong Answer'
         else Execution/Compile Error
-            JudgeCtrl->>JudgeCtrl: verdict = "Runtime Error"
+            JudgeCtrl->>JudgeCtrl: verdict = 'Runtime Error'
         end
         
         JudgeCtrl->>JudgeCtrl: Calculate Score (+100 per passed test)
@@ -414,7 +414,7 @@ sequenceDiagram
     end
     
     JudgeCtrl->>Mongo: resultDoc.save()
-    JudgeCtrl-->>AdminUI: 200 OK { message: "Evaluation completed", totalScoreAdded, results }
+    JudgeCtrl-->>AdminUI: 200 OK (Evaluation Completed, Standings Updated)
     AdminUI->>AdminUI: Refresh Leaderboard Standings
 ```
 
@@ -545,8 +545,8 @@ stateDiagram-v2
     RulesScreen --> ContestArena : Click Start
     
     state ContestArena {
-        [*] --> InitializeContext : Fetch Settings & Question Pool
-        InitializeContext --> EditorActive : Render First Question & Starter Code
+        [*] --> InitializeContext : Fetch Settings and Question Pool
+        InitializeContext --> EditorActive : Render First Question and Starter Code
         
         state EditorActive {
             CodeTyping --> LanguageSwitch : Candidate changes dropdown
@@ -556,20 +556,20 @@ stateDiagram-v2
         
         EditorActive --> ClockTick : 1-sec Countdown Timer
         ClockTick --> TimeContextUpdate : Update remaining seconds
-        ClockTick --> AutoSubmitTimer : time <= 0
+        ClockTick --> AutoSubmitTimer : Timer Expiry (0 seconds)
         
-        EditorActive --> SecurityViolation : Window Blur / Tab Switch / Exit Fullscreen
-        SecurityViolation --> AutoSubmitProctor : onAutoSubmit()
+        EditorActive --> SecurityViolation : Window Blur or Tab Switch or Exit Fullscreen
+        SecurityViolation --> AutoSubmitProctor : onAutoSubmit Triggered
         
-        EditorActive --> ManualSubmit : Candidate Clicks 'Submit' & Confirms
+        EditorActive --> ManualSubmit : Candidate Clicks Submit and Confirms
     }
     
     AutoSubmitTimer --> SubmissionPayload
     AutoSubmitProctor --> SubmissionPayload
     ManualSubmit --> SubmissionPayload
     
-    SubmissionPayload --> ResultSaved : POST /api/result
-    ResultSaved --> CompletedScreen : Redirect to /end
+    SubmissionPayload --> ResultSaved : Save Result via API
+    ResultSaved --> CompletedScreen : Redirect to End Screen
     CompletedScreen --> [*]
 ```
 
